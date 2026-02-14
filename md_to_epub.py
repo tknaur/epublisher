@@ -39,7 +39,7 @@ def create_epub_from_markdown(input_dir, output_epub_path):
         file_name = f'chap_{i:04d}.xhtml'
         
         c = epub.EpubHtml(title=chapter_title, file_name=file_name, lang='en')
-        c.content = f'<h1>{chapter_title}</h1>\\n{html_content}'
+        c.content = f'<h1>{chapter_title}</h1>{html_content}'
         book.add_item(c)
         chapters.append(c)
         spine.append(c)
