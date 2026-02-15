@@ -90,8 +90,8 @@ def create_epub_from_markdown(input_dir, output_epub_path):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Convert a directory of Markdown files into a single EPUB.")
-    parser.add_argument("--input_dir", required=True, help="Path to the directory containing Markdown files.")
-    parser.add_argument("--output_epub", required=True, help="Path for the output EPUB file (e.g., my_book.epub).")
+    parser.add_argument("--input_dir", "-i", required=True, help="Path to the directory containing Markdown files.")
+    parser.add_argument("--output_epub", "-o", required=True, help="Path for the output EPUB file (e.g., my_book.epub).")
 
     args = parser.parse_args()
 
