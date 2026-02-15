@@ -4,7 +4,25 @@ import markdown
 from ebooklib import epub
 import uuid
 
+def generate_toc_chapter(chapters):
+    """Generate a table of contents chapter."""
+    toc_html = '<h1>Table of Contents</h1>\n<ol>\n'
+    for chapter in chapters:
+        toc_html += f'  <li><a href="{chapter.file_name}">{chapter.title}</a></li>\n'
+    toc_html += '</ol>'
+    
+    toc_chapter = epub.EpubHtml(title='Table of Contents', file_name='toc_chapter.xhtml', lang='en')
+    toc_chapter.content = toc_html
+    return toc_chapter
+
 def create_epub_from_markdown(input_dir, output_epub_path):
+    """
+	Docstring for create_epub_from_markdown
+	
+	:param input_dir: input_dir is the path to the directory containing Markdown files. The function will read all .md or .markdown files in this directory and convert them into chapters in the EPUB.
+	:param output_epub_path: output_epub_path is the path where the generated EPUB file will be saved. The user should provide a valid file name with the .epub extension (e.g., my_book.epub).
+	:return: The function does not return a value. It generates an EPUB file at the specified output path. If the process is successful, it prints a success message with the location of the created
+	"""
     book = epub.EpubBook()
 
     # Set metadata
@@ -44,6 +62,12 @@ def create_epub_from_markdown(input_dir, output_epub_path):
         chapters.append(c)
         spine.append(c)
         toc.append(epub.Section(chapter_title, c))
+
+    # Generate and add Table of Contents chapter
+    toc_chapter = generate_toc_chapter(chapters)
+    book.add_item(toc_chapter)
+    spine.insert(1, toc_chapter)  # Insert after nav, before first chapter
+    toc.insert(0, epub.Section('Table of Contents', toc_chapter))
 
     # Add default NCX and Nav file
     book.add_item(epub.EpubNcx())
